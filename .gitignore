@@ -1,0 +1,30 @@
+# JavaScript dependencies and package-manager caches
+node_modules/
+.npm/
+.npm-cache/
+.yarn/
+.pnpm-store/
+
+# Vite/Tauri generated frontend output
+dist/
+
+# Rust build output
+src-tauri/target/
+
+# macOS and Windows metadata
+.DS_Store
+.DS_Store?
+Thumbs.db
+Desktop.ini
+
+# IDE/editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Local environment files
+.env
+.env.*
+!.env.example

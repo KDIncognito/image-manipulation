@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>App Store Screenshot Studio & Depth Tester</title>
+
+  <!-- Google Fonts Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Google Fonts CDN Import -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@700;800;900&family=Inter:wght@400;600;700;800&family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Poppins:wght@500;600;700;800&family=Space+Grotesk:wght@600;700&family=Syne:wght@700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Mode Selection Screen -->
+  <div id="modeSelectionScreen" class="mode-selection-screen">
+    <div class="mode-card">
+      <h1>App Store Studio</h1>
+      <p>Select a workspace tool to begin optimizing and rendering your app assets.</p>
+
+      <div class="mode-buttons">
+        <button id="appStoreModeBtn" class="btn btn-primary btn-large">
+          <strong>App Store Screenshot Resizer</strong>
+          <span>Export store-ready sizes with edge-shaving, CDN typography, and custom corners.</span>
+        </button>
+
+        <button id="depthModeBtn" class="btn btn-secondary btn-large">
+          <strong>2D Layer Depth Tester</strong>
+          <span>Inspect multi-layer graphics with 3D tilt and layer separation.</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main App Interface -->
+  <div id="appInterface" class="app-interface" style="display: none;">
+
+    <header class="top-bar">
+      <div class="brand">
+        <button id="resetModeBtn" class="btn-icon" title="Change Workspace Mode">←</button>
+        <h2>App Store Studio</h2>
+        <span id="activeModeBadge" class="badge">Mode: App Store Screenshot Resizer</span>
+      </div>
+      <div id="dimensionInfo" class="dimension-info">Target Export Scale: 2736px × 1260px</div>
+    </header>
+
+    <div class="workspace-grid">
+
+      <!-- Control Panel Sidebar -->
+      <aside class="sidebar">
+
+        <!-- File Dropzone & Loader -->
+        <section class="panel-section">
+          <h3>Asset Management</h3>
+          <div id="dropZone" class="drop-zone">
+            <p>Drag & drop PNG/JPG layers here</p>
+            <span>or</span>
+            <button id="browseFilesButton" type="button" class="btn btn-secondary">Browse Files</button>
+          </div>
+        </section>
+
+        <!-- Typography & Presets Section -->
+        <section class="panel-section">
+          <h3>Store & Typography Settings</h3>
+
+          <div class="input-group">
+            <label for="devicePresetSelect">Export Device Target</label>
+            <select id="devicePresetSelect">
+              <optgroup label="iPhone Landscape (16:9 / Edge-to-Edge)">
+                <option value="iphone-6.9" selected>iPhone 6.9" Landscape (2736 × 1260 px)</option>
+                <option value="iphone-6.5">iPhone 6.5" Landscape (2778 × 1284 px)</option>
+              </optgroup>
+              <optgroup label="Other Store Presets">
+                <option value="iphone-6.9-portrait">iPhone 6.9" Portrait (1290 × 2796 px)</option>
+                <option value="iphone-5.5-portrait">iPhone 5.5" Portrait (1242 × 2208 px)</option>
+                <option value="ipad-13">iPad Pro 13" (2064 × 2752 px)</option>
+                <option value="mac-appstore">Mac App Store (1280 × 800 px)</option>
+                <option value="google-play">Google Play Phone (1080 × 1920 px)</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label for="headlineTextInput">Headline Text Overlay</label>
+            <textarea id="headlineTextInput" rows="2" placeholder="e.g. Build Faster with Dynamic Fonts"></textarea>
+          </div>
+
+          <div class="input-row">
+            <div class="input-group">
+              <label for="fontSelect">Google Font</label>
+              <select id="fontSelect">
+                <option value="Plus Jakarta Sans" selected>Plus Jakarta Sans</option>
+                <option value="Syne">Syne</option>
+                <option value="Cabinet Grotesk">Cabinet Grotesk</option>
+                <option value="Outfit">Outfit</option>
+                <option value="Poppins">Poppins</option>
+                <option value="Space Grotesk">Space Grotesk</option>
+                <option value="Inter">Inter</option>
+              </select>
+            </div>
+
+            <div class="input-group">
+              <label for="fontSizeInput">Font Size (px)</label>
+              <input type="number" id="fontSizeInput" value="80" min="20" max="300" />
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="textColorInput">Text Color</label>
+            <input type="color" id="textColorInput" value="#FFFFFF" />
+          </div>
+        </section>
+
+        <!-- 3D Camera & Layer Separation Section -->
+        <section class="panel-section">
+          <h3>Viewport & 2D Depth Perspective</h3>
+
+          <div class="input-group">
+            <label for="camRotateX">Rotate X-Axis</label>
+            <input type="range" id="camRotateX" min="-45" max="45" value="0" />
+          </div>
+
+          <div class="input-group">
+            <label for="camRotateY">Rotate Y-Axis</label>
+            <input type="range" id="camRotateY" min="-45" max="45" value="0" />
+          </div>
+
+          <div class="input-group">
+            <label for="layerGap">Layer Separation (px)</label>
+            <input type="range" id="layerGap" min="0" max="100" value="0" />
+          </div>
+
+          <div class="input-group">
+            <label for="previewZoom">Stage Zoom</label>
+            <input type="range" id="previewZoom" min="0.5" max="1.5" step="0.05" value="1" />
+          </div>
+
+          <button id="resetCamBtn" class="btn btn-secondary">Reset Camera Angle</button>
+        </section>
+
+        <!-- Export Controls Section -->
+        <section id="exportPanelControls" class="panel-section">
+          <h3>Export Settings</h3>
+
+          <div class="input-group">
+            <label for="exportRadius">Export Corner Radius (px)</label>
+            <input type="range" id="exportRadius" min="0" max="120" value="0" />
+          </div>
+
+          <div class="input-group">
+            <label for="exportFormatSelect">Export Format</label>
+            <select id="exportFormatSelect">
+              <option value="png" selected>PNG</option>
+              <option value="jpeg">JPEG</option>
+            </select>
+          </div>
+
+          <div class="btn-stack">
+            <button id="exportCompositeBtn" class="btn btn-primary">Export Composite</button>
+            <button id="exportAllLayersBtn" class="btn btn-secondary">Export All Layers Separately</button>
+          </div>
+        </section>
+
+        <!-- Layer Stack Management list -->
+        <section id="mainContainer" class="panel-section" style="display: none;">
+          <h3>Layer Stack</h3>
+          <div id="layersList" class="layers-list"></div>
+        </section>
+
+      </aside>
+
+      <!-- Main Interactive Viewport Stage -->
+      <main class="preview-stage">
+        <div class="stage-perspective">
+          <div id="viewport" class="viewport-canvas">
+            <!-- Layers and headline live overlay render inside this container -->
+          </div>
+        </div>
+      </main>
+
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

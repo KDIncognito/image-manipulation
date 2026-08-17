@@ -1,0 +1,19 @@
+[package]
+name = "app-store-studio"
+version = "1.0.0"
+description = "App Store screenshot compositor and 2D layer depth tester"
+authors = ["App Store Studio"]
+edition = "2021"
+
+[lib]
+name = "app_store_studio_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.0.0", features = [] }
+
+[dependencies]
+tauri = { version = "2.0.0", features = ["devtools"] }
+tauri-plugin-dialog = "2.0.0"
+base64 = "0.22"
+image = { version = "0.25", default-features = false, features = ["png", "jpeg"] }
